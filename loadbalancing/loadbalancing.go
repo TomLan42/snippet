@@ -7,7 +7,10 @@ package main
  * @Last Modified time: 2020-12-10 23:41:56
  */
 
-import "fmt"
+import (
+	"fmt"
+	"math/rand"
+)
 
 // Server represents a weighted server
 type Server struct {
@@ -17,47 +20,86 @@ type Server struct {
 
 // Run the workload
 func (s *Server) Run() {
-	fmt.Printf("Server %s fired.", s.Name)
+	fmt.Printf("Server %s fired.\n", s.Name)
 }
 
 // LoadBalancer interface
 type LoadBalancer interface {
 	Schedule()
+	Test()
+}
+
+// BaseLoadBalancer is the base class of the lb
+type BaseLoadBalancer struct {
+	Cluster []Server
+	Metric  map[string]int
+}
+
+// Test prints out the server worklaod frequency to compare with ideal cases
+func (b *BaseLoadBalancer) Test() {
+	total := 0
+	for _, count := range b.Metric {
+		total += count
+	}
+	for server, count := range b.Metric {
+		fmt.Printf("Server %s :  %.2f %%\n", server, 100*float64(count)/float64(total))
+	}
+
 }
 
 // LotteryLoadBalancer leverages random number generator
 type LotteryLoadBalancer struct {
+	BaseLoadBalancer
 }
 
 // Schedule method of LotteryScheduler
-func (s *LotteryLoadBalancer) Schedule([]Server) {
-
+func (s *LotteryLoadBalancer) Schedule() {
+	totalWeights := 0
+	for _, server := range s.Cluster {
+		totalWeights += server.Weight
+	}
+	lottery := rand.Intn(totalWeights)
+	cover := 0
+	for _, server := range s.Cluster {
+		cover += server.Weight
+		if cover > lottery {
+			server.Run()
+			s.Metric[server.Name]++
+			return
+		}
+	}
 }
 
 // StepLoadBalancer uses stepsize method
 type StepLoadBalancer struct {
+	BaseLoadBalancer
 }
 
 // Schedule method of StepScheduler
 func (s *StepLoadBalancer) Schedule([]Server) {
-
 }
 
 func main() {
 
-	clusters := []Server{
+	cluster := []Server{
 		{Name: "A", Weight: 50},
-		{Name: "B", Weight: 70},
-		{Name: "C", Weight: 30},
-		{Name: "D", Weight: 20},
-		{Name: "E", Weight: 10},
+		{Name: "B", Weight: 50},
+		{Name: "C", Weight: 100},
 	}
 
-	lbA := LotteryLoadBalancer{}
-	lbB := StepLoadBalancer{}
-	for i := 0; i < 100; i++ {
-		lbA.Schedule(clusters)
-		lbB.Schedule(clusters)
+	lbA := LotteryLoadBalancer{
+		BaseLoadBalancer{
+			Cluster: cluster,
+			Metric:  make(map[string]int),
+		},
 	}
+
+	// lbB := StepLoadBalancer{
+	// 	Cluster: cluster}
+	for i := 0; i < 2000; i++ {
+		lbA.Schedule()
+		// lbB.Schedule(
+	}
+	lbA.Test()
 
 }

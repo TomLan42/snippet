@@ -79,6 +79,15 @@ type StepLoadBalancer struct {
 func (s *StepLoadBalancer) Schedule([]Server) {
 }
 
+// NgnixLoadBalancer style of load balancing
+type NgnixLoadBalancer struct {
+	BaseLoadBalancer
+}
+
+// Schedule method of StepScheduler
+func (n *NgnixLoadBalancer) Schedule([]Server) {
+}
+
 func main() {
 
 	cluster := []Server{

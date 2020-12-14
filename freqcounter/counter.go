@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"container/list"
+	"fmt"
+)
 
 /*
  * @Author: TomLan42
@@ -22,18 +25,18 @@ type Counter interface {
 	LeastFrequent()
 }
 
-// NaiveCounter uses map
+// NaiveCounter : O(1) insertion + O(n) reporting
+// n is the len of the sequence
 type NaiveCounter struct {
 	Sequence  []int
 	Frequency map[int]int
 }
 
-// LinearCounter uses map + linear insertion
-type LinearCounter struct {
-}
-
-// HeapCounter uses map + heap
-type HeapCounter struct {
+// LinkedCounter : O(1) insertion + O(1) reporting
+// Uses hashmap + linked list
+type LinkedCounter struct {
+	Frequency  map[int]int
+	LinkedList list.List
 }
 
 // Add takes in number
@@ -70,11 +73,41 @@ func (n *NaiveCounter) MostFrequent() {
 		}
 	}
 	fmt.Println("Most frequent is (are): ", ans)
-
 }
 
 // LeastFrequent method of NaiveCounter
 func (n *NaiveCounter) LeastFrequent() {
+	ans := make([]int, 0)
+	min := len(n.Sequence)
+	for _, freq := range n.Frequency {
+		if freq <= min {
+			min = freq
+		}
+	}
+	for num, freq := range n.Frequency {
+		if freq == min {
+			ans = append(ans, num)
+		}
+	}
+	fmt.Println("Least frequent is (are): ", ans)
+}
+
+// Add method of LinearCounter
+func (l *LinkedCounter) Add(num int) {
+
+}
+
+// LastNonRepeat method of LinkedCounter
+func (l *LinkedCounter) LastNonRepeat() {
+}
+
+// MostFrequent method of LinkedCounter
+func (l *LinkedCounter) MostFrequent() {
+
+}
+
+// LeastFrequent method of LinkedCounter
+func (l *LinkedCounter) LeastFrequent() {
 
 }
 
@@ -83,11 +116,15 @@ func main() {
 		Sequence:  make([]int, 0),
 		Frequency: make(map[int]int),
 	}
+	counterB := &LinkedCounter{
+		Frequency: make(map[int]int),
+	}
+
 	// counterB := HeapCounter{}
 	fmt.Println("*** Naive Counter ***")
 	Test(counterA)
-	// fmt.Println("*** Heap Counter ***")
-	// Test(counterB)
+	fmt.Println("*** Linear insertion Counter ***")
+	Test(counterB)
 
 }
 

@@ -17,4 +17,3 @@ func mergeKLists(lists []*ListNode) *ListNode {
 }
 
 // @lc code=end
-

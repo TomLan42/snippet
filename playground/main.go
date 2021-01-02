@@ -5,6 +5,7 @@ import "fmt"
 func main() {
 	bitshift()
 	initilization()
+	playwithstruct()
 }
 
 func bitshift() {
@@ -26,4 +27,18 @@ func initilization() {
 	y := make(map[int]int)
 	fmt.Println(y[0])
 	fmt.Println(x[2])
+}
+
+func playwithstruct() {
+	type S struct {
+		name string
+	}
+	A := &S{
+		name: "HHHH"}
+	A.name = "GOUGOU"
+	fmt.Println(A.name)
+	B := S{
+		name: "WHYWHY"}
+	B.name = "YESYES"
+	fmt.Println(B.name)
 }

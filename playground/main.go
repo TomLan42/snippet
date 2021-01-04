@@ -1,11 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"log"
+	"time"
+)
 
 func main() {
 	bitshift()
 	initilization()
 	playwithstruct()
+	sleeptest()
 }
 
 func bitshift() {
@@ -41,4 +46,13 @@ func playwithstruct() {
 		name: "WHYWHY"}
 	B.name = "YESYES"
 	fmt.Println(B.name)
+}
+
+func sleeptest() {
+	var x int = 1
+	var speed float64 = 12
+	for i := 0; i < 10; i++ {
+		time.Sleep(time.Duration(x) * time.Duration(float64(time.Second)/speed))
+		log.Println(i)
+	}
 }

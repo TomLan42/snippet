@@ -6,8 +6,9 @@
 
 // @lc code=start
 func sortArray(nums []int) []int {
-	return MergeSort(nums)
 	// return QuickSort(nums)
+	// return MergeSort(nums)
+	return HeapSort(nums)
 }
 
 func QuickSort(nums []int) []int {
@@ -76,6 +77,41 @@ func merge(left, right []int) []int {
 	result = append(result, left[l:]...)
 	result = append(result, right[r:]...)
 	return result
+
+}
+
+func HeapSort(nums []int) []int {
+	// from the parent of the lowest leaf
+	// construct heap
+	for i := len(nums)/2 - 1; i >= 0; i-- {
+		sink(nums, i, len(nums))
+	}
+
+	for i := len(nums) - 1; i >= 1; i-- {
+		swap(nums, 0, i)
+		sink(nums, 0, i)
+	}
+	return nums
+}
+
+func sink(nums []int, i int, length int) {
+	for {
+		l := 2*i + 1
+		r := 2*i + 2
+		idx := i
+
+		if l < length && nums[l] > nums[idx] {
+			idx = l
+		}
+		if r < length && nums[r] > nums[idx] {
+			idx = r
+		}
+		if idx == i {
+			break
+		}
+		swap(nums, i, idx)
+		i = idx
+	}
 
 }
 

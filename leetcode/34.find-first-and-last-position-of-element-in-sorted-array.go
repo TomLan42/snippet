@@ -7,6 +7,11 @@
 // @lc code=start
 func searchRange(nums []int, target int) []int {
 
+	return searchTemplate3(nums, target)
+
+}
+
+func searchTemplate1(nums []int, target int) []int {
 	ans := []int{-1, -1}
 
 	if len(nums) == 0 {
@@ -44,6 +49,73 @@ func searchRange(nums []int, target int) []int {
 	}
 
 	return ans
+}
+
+func searchTemplate3(nums []int, target int) []int {
+
+	result := []int{-1, -1}
+
+	if len(nums) == 0 {
+		return result
+	}
+
+	left := 0
+	right := len(nums) - 1
+
+	//find the left bound
+	for left+1 < right {
+		mid := left + (right-left)/2
+		if nums[mid] > target {
+			right = mid
+		}
+		if nums[mid] < target {
+			left = mid
+		}
+		if nums[mid] == target {
+			right = mid
+		}
+	}
+	// leftover
+	if nums[right] == target {
+		result[0] = right
+	}
+	if nums[left] == target {
+		result[0] = left
+	}
+	if nums[left] != target && nums[right] != target {
+		return result
+	}
+
+	// find the right bound
+	left = 0
+	right = len(nums) - 1
+
+	//find the left bound
+	for left+1 < right {
+		mid := left + (right-left)/2
+		if nums[mid] > target {
+			right = mid
+		}
+		if nums[mid] < target {
+			left = mid
+		}
+		if nums[mid] == target {
+			left = mid
+		}
+	}
+	// leftover
+	if nums[left] == target {
+		result[1] = left
+	}
+	if nums[right] == target {
+		result[1] = right
+	}
+	if nums[left] != target && nums[right] != target {
+		return result
+	}
+
+	return result
+
 }
 
 // @lc code=end

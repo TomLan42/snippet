@@ -17,7 +17,7 @@ func main() {
 }
 
 func bitshift() {
-	fmt.Println("Hello, playground")
+	fmt.Println("Hello, playgrdound")
 
 	var x int32 = -(1 << 31)
 

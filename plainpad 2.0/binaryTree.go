@@ -21,7 +21,7 @@ func preorderTraversal(root *Node) {
 	preorderTraversal(root.right)
 }
 
-// iterative traversal in-order traverasal
+// iterative traversal in-order
 
 func iterativePreorderTraversal(root *Node) []int {
 
@@ -41,5 +41,58 @@ func iterativePreorderTraversal(root *Node) []int {
 	}
 
 	return result
+
+}
+
+// iterative traversal in-order
+
+func iterativeInOrderTraversal(root *Node) []int {
+
+	result := make([]int, 0)
+	stack := make([]*Node, 0)
+
+	for root != nil || len(result) > 0 {
+
+		// left
+		for root != nil {
+			stack = append(stack, root)
+			root = root.left
+		}
+		// right
+		node := stack[len(stack)-1]
+		result = append(result, node.val)
+		stack = stack[:len(stack)-1]
+		root = node.right
+	}
+
+	return result
+}
+
+// iterative traversal post-order
+
+func iterativePostOrderTraversal(root *Node) []int {
+	result := make([]int, 0)
+	stack := make([]*Node, 0)
+
+	var lastVisit *Node
+
+	for root != nil || len(result) > 0 {
+		for root != nil {
+			stack = append(stack, root)
+			root = root.left
+		}
+
+		node := stack[len(stack)-1]
+
+		// stack = stack[:len(stack)-1]
+		if node.right == nil || lastVisit == node.right {
+			stack = stack[:len(stack)-1]
+			result = append(result, node.val)
+			lastVisit = node
+		} else {
+			root = node.right
+		}
+
+	}
 
 }

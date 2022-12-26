@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"log"
 	"time"
+
+	"github.com/TomLan42/snippet/lintcode"
 )
 
 func main() {
@@ -13,7 +15,9 @@ func main() {
 	// sleeptest()
 	// appendtest()
 
-	fmt.Println(partition("ababbbabbaba"))
+	// fmt.Println(lintcode.InfixToSuffix([]string{"1", "+", "(", "(", "2", "+", "3", ")", "*", "4", ")", "-", "5"}))
+
+	fmt.Println(lintcode.Calculate("1+((2/3)*4)-5"))
 }
 
 func bitshift() {

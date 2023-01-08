@@ -17,7 +17,9 @@ func main() {
 
 	// fmt.Println(lintcode.InfixToSuffix([]string{"1", "+", "(", "(", "2", "+", "3", ")", "*", "4", ")", "-", "5"}))
 
-	fmt.Println(lintcode.Calculate("1+((2/3)*4)-5"))
+	// fmt.Println(lintcode.Calculate("1+((2/3)*4)-5"))
+	fmt.Println(lintcode.PopularPath([]string{"1A", "1B", "1C", "1A", "2B", "2C", "2A"}))
+
 }
 
 func bitshift() {

@@ -61,7 +61,7 @@ func partition(nums []int, start, end) int {
     for i := start; i < end; i++ {
         if nums[i] < pivot {
             swap(nums, i, front)
-            j++
+            front++
         }
     }
 

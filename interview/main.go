@@ -112,6 +112,3 @@ func join(inputs []string) string {
 
 	return output
 }
-
-
-O(n)
